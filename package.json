@@ -1,0 +1,21 @@
+{
+  "name": "blogplatform",
+  "version": "1.0.0",
+  "description": "starter kit for blog platform",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "shot": "^1.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
