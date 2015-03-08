@@ -19,4 +19,4 @@ We are using [shot](https://www.npmjs.com/package/shot) to inject requests to th
 * Start the server with ``` make s ``` or ```node server.js```
 * Run the tests with ``` make t ``` or ``` npm test ```
 
-(If you are not familiar with [Make](http://en.wikipedia.org/wiki/Make_(software)), you might want to read Mike Bostock's article, *[Why Use Make](http://bost.ocks.org/mike/make/)).
+(If you are not familiar with [Make](http://en.wikipedia.org/wiki/Make_(software)), you might want to read Mike Bostock's article, *[Why Use Make](http://bost.ocks.org/mike/make/)*).
