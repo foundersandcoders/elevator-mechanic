@@ -1,5 +1,5 @@
 t:
-	./node_modules/mocha/bin/mocha
+	mocha
 
 s:
 	node server.js

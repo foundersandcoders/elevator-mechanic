@@ -1,24 +1,20 @@
 var shot = require("shot");
-var server = require("../handler.js");
+var server = require("../handler");
 var assert = require("assert");
-
 var request;
 
+describe("Home page", function () {
 
-describe("server should...", function() {
-
-    it("respond with 200", function(done) {
+    it("should respond with an OK status code", function (done) {
 
         request = {
             method: "GET",
             url: "/"
         };
 
-        shot.inject(server, request, function(res) {
-
+        shot.inject(server, request, function (res) {
             assert.equal(res.statusCode, 200);
             done();
-
         });
 
     });
