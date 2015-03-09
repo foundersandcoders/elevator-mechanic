@@ -1,5 +1,7 @@
 var http = require("http");
+var ecstatic = require('ecstatic')({root: __dirname + '/public'});
 var handler = require("./handler");
+
 var port = 4000;
 
 
@@ -10,23 +12,17 @@ routes["/create"] = handler.create;
 routes["/update"] = handler.update;
 
 
-
-
 //*** Invokes the right handler or throws error ***//
 var router = function(req, res){
 	var url = req.url;
 	console.log("request received for ", url);
 
-
 	if (typeof routes[url] === 'function'){
 		routes[url](req, res); 
 	} else {
-		console.log('Error, route for ', url, 'does not exist');
-		res.writeHead(404, {"Content-Type": "text/plain"});
-	    res.end(" ERROR!!");
+	    ecstatic(req, res);
 	}
 }
-
 
 http.createServer(router).listen(port);
 
