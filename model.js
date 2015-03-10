@@ -15,46 +15,88 @@ db.once("open", function (callback) {
   console.log("connection made");
 });
 
+
+dummey_data = {
+    userdata: { 
+    username: { 'per' },
+    password: { '123' }
+          },  
+  blogposts: [{ 
+    author : 'per',
+    title  : 'pers post',
+    text   : 'pers text',
+    date   : {},
+    image  : 'www.google.com/image'  
+  }, 
+  { 
+    author : 'per2',
+    title  : 'pers post 2',
+    text   : 'pers text 2',
+    date   : {},
+    image  : 'www.google.com/image2'  
+  }]
+}
+
 // Define database schema which determines which properties we want to store \\
-var blogSchema = mongoose.Schema({
-  author : String,
-  title  : String,
-  text   : String,
-  date   : Object,
-  image  : String
+var userSchema = mongoose.Schema({
+  userdata: { 
+    username: { type : String , unique : true, required : true },
+    password: { type : String , unique : true, required : true }
+          },  
+  blogposts: [{ 
+    author : String,
+    title  : String,
+    text   : String,
+    date   : Object,
+    image  : String  
+  }]
 });
 
 // Adding method to the schema. Have to be defined before schema is compiled \\
-blogSchema.methods.announce = function() {
+userSchema.methods.announce = function() {
   var author = this.author ? "Another blog post by " + this.author : "Anonymous blog post";
   console.log(author);
 };
 
 // Compile schema into a model, which defines the database collection \\
 // First argument is collection name, second argument is schema name  \\
-var blogPost = mongoose.model("blogpost", blogSchema);
+
+// Example: save new user to database
+var User = mongoose.model("blogpost", userSchema);
+
+new_user = new User({
+    userdata: {
+      username: 'john',
+      password: '123'
+    }
+});
+
+new_user.save(function (err,user){
+  if (err) return console.error(err);
+  console.log(user);
+});
+
+/*
+
+// update a db object
+user.findOneAndUpdate({ author: "bob smith" } ,{ $set: { title: "title nr 2" }}, function(err, blogpost){
+  if (err){
+    console.log(err)
+  }
+  console.log(blogpost);
+});
+
+
+
 
 module.exports = { 
         blogPost: blogPost
 };
 
 
-/*
-// Example blog post \\
-var testPost = new blogPost({ author : "bob smith",
-                 title : "read these words",
-                   text : "this is some informatioon about an interesting topic of my choice",
-                  date : "new data object",
-                 image : "img src ='www.google.com/images/pineapple"
-              });
-
-// Saves submitted blog post to database and displays a message confirming
-
-testPost.save(function(err, testPost){
-  if (err) return console.error(err);
-  testPost.announce();
-});
 */
+
+
 
 
 // Create http server to serve saved blogposts \\
