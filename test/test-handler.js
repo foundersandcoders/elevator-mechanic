@@ -5,11 +5,14 @@ var request;
 
 
 describe("home page response", function(){
+	
 	it('should return 200 as the status code', function(done){
+		
 		request = {
 			method: 'GET',
 			url: '/'
 		}
+
 		shot.inject(handler.home, request, function(response){
 			assert.equal(response.statusCode, 200);
 			done();
@@ -19,11 +22,11 @@ describe("home page response", function(){
 	it('should return the correct string', function(done){
 		request = {
 			method: 'GET',
-			url: '/'
+			url: '/test'
 		}
 
 		shot.inject(handler.home, request, function(response){
-			assert.equal(response.payload, "Welcome everybody");
+			assert.equal(response.payload, "Welcome test");
 			done();
 		});
 	});
