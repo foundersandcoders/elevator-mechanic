@@ -12,7 +12,8 @@
     "shot": "^1.4.2"
   },
   "devDependencies": {
-    "mocha": "^2.2.0"
+    "mocha": "^2.2.1",
+    "shot": "^1.4.2"
   },
   "scripts": {
     "test": "mocha",
