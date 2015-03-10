@@ -1,9 +1,14 @@
 var http = require("http");
 var ecstatic = require('ecstatic')({root: __dirname + '/public'});
 var handler = require("./handler");
-
 var port = 4000;
+var jade = require("jade");
+var path = __dirname + "/public/index.jade";
+var fn = jade.compileFile(path);
 
+var data = {user: "asim"}
+
+var htmlOutput = fn(data);
 
 //*** List of Routes and Associated Handler Functions ***//
 var routes = {}
@@ -18,7 +23,7 @@ var router = function(req, res){
 	console.log("request received for ", url);
 
 	if (typeof routes[url] === 'function'){
-		routes[url](req, res); 
+		routes[url](req, res, htmlOutput);
 	} else {
 	    ecstatic(req, res);
 	}
@@ -27,4 +32,3 @@ var router = function(req, res){
 http.createServer(router).listen(port);
 
 console.log('Server running on port', port);
-
