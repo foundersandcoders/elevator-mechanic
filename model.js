@@ -15,6 +15,28 @@ db.once("open", function (callback) {
   console.log("connection made");
 });
 
+
+dummey_data = {
+    userdata: { 
+    username: { 'per' },
+    password: { '123' }
+          },  
+  blogposts: [{ 
+    author : 'per',
+    title  : 'pers post',
+    text   : 'pers text',
+    date   : {},
+    image  : 'www.google.com/image'  
+  }, 
+  { 
+    author : 'per2',
+    title  : 'pers post 2',
+    text   : 'pers text 2',
+    date   : {},
+    image  : 'www.google.com/image2'  
+  }]
+}
+
 // Define database schema which determines which properties we want to store \\
 var userSchema = mongoose.Schema({
   userdata: { 
