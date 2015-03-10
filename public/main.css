@@ -1,22 +1,12 @@
-.sidebar {
-	float: left;
-	border: 2px solid black;
-	border-radius: 5px;
-	display: inline-block;
-	padding: 5px;
-	margin: 5px;
-}
-.content {
-	float: center;
-	border: 2px solid black;
-	border-radius: 5px;
-	display: inline-block;
-	padding: 5px;
-	margin: 5px;
-}
 .header {
-	color: red;
-	font-size: 30px;
-	border-radius: 50px;
-	border: 2px solid blue;
+	font-family: cursive;
+	text-align: center;
+}
+
+.sidebar {
+    background-color:#eeeeee;
+    height:100%;
+    width:250px;
+    float:left;
+    padding:5px;	      
 }

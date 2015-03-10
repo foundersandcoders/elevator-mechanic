@@ -6,7 +6,29 @@ var jade = require("jade");
 var path = __dirname + "/public/index.jade";
 var fn = jade.compileFile(path);
 
-var data = {user: "asim"}
+var data = {
+    userdata: {
+		username: "per",
+		password: "123"
+    },  
+
+    blogposts: [
+	    { 
+		    author : "per",
+		    title  : "pers post",
+		    text   : "pers text",
+		    date   : "01/03/2015",
+		    image  : "www.google.com/image"  
+	 	}, 
+		{ 
+		    author : "per2",
+		    title  : "pers post 2",
+		    text   : "pers text 2",
+		    date   : "05/03/2015",
+		    image  : "www.google.com/image2"  
+		}
+	]
+}
 
 var htmlOutput = fn(data);
 
