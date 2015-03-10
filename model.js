@@ -6,7 +6,7 @@ var fs = require("fs");
 var ecstatic = require("ecstatic")({root: __dirname + "/public"});
 
 
-mongoose.connect("mongodb://localhost/");
+mongoose.connect("mongodb://foundrymatrix:foundrymatrix@ds031108.mongolab.com:31108/serverblog");
 
 // Get notification for connection success or failure \\
 var db = mongoose.connection;
@@ -34,6 +34,12 @@ blogSchema.methods.announce = function() {
 // First argument is collection name, second argument is schema name  \\
 var blogPost = mongoose.model("blogpost", blogSchema);
 
+module.exports = { 
+        blogPost: blogPost
+};
+
+
+/*
 // Example blog post \\
 var testPost = new blogPost({ author : "bob smith",
                  title : "read these words",
@@ -48,8 +54,11 @@ testPost.save(function(err, testPost){
   if (err) return console.error(err);
   testPost.announce();
 });
+*/
+
 
 // Create http server to serve saved blogposts \\
+/*
 http.createServer(function (request, response) {
   if (request.url === "/") {
     blogPost.find(function(err, blogPost) {
@@ -66,3 +75,5 @@ http.createServer(function (request, response) {
 }).listen(4000);
 
 console.log("Server running at 4000");
+
+*/

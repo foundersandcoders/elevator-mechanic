@@ -1,4 +1,7 @@
+var model = require('./model.js');
+
 module.exports = {
+
 	home: function handler(req, res, htmlOutput) {
 		console.log("Request handler 'home' was called.");
 	    res.writeHead(200, {"Content-Type": "text/html"});
@@ -15,6 +18,6 @@ module.exports = {
 		console.log("Request handler 'update' was called.");
 	    res.writeHead(200, {"Content-Type": "text/html"});
 	    res.end("Update Article");
-	},
+	}
 }
 
