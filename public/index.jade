@@ -1,7 +1,12 @@
 html
 	head
 		title Default Title
+		link(rel='stylesheet',href='/styling/main.css')
 	body
 		h1 this is a jade file homepage
 		h2 asfsafsaf
 		h1 #{user}
+		form( action="/create",method="post")
+			input(type="text" name='title',rows="2",cols="10")
+			input(type="text" name='text',rows="5",cols="20")
+			input(type="submit",value="Save blog")

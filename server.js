@@ -2,13 +2,7 @@ var http = require("http");
 var ecstatic = require('ecstatic')({root: __dirname + '/public'});
 var handler = require("./handler");
 var port = 4000;
-var jade = require("jade");
-var path = __dirname + "/public/index.jade";
-var fn = jade.compileFile(path);
 
-var data = {user: "asim"}
-
-var htmlOutput = fn(data);
 
 //*** List of Routes and Associated Handler Functions ***//
 var routes = {}
@@ -21,9 +15,22 @@ routes["/update"] = handler.update;
 var router = function(req, res){
 	var url = req.url;
 	console.log("request received for ", url);
-
-	if (typeof routes[url] === 'function'){
-		routes[url](req, res, htmlOutput);
+	console.log("server says this is a ", req.method)
+	if (req.method == 'POST'){
+		console.log("POST if statement invoked");
+		console.dir("REQ is -----",req);
+		var postData = "";
+		req.setEncoding("utf8");
+		req.addListener("data", function(postDataChunk) {
+			postData += postDataChunk;
+			console.log("Received POST data chunk '"+
+			postDataChunk + "'.");
+		});
+		req.addListener("end", function() {
+			routes[url](req, res, postData);
+		});
+	} else if (typeof routes[url] === 'function'){
+		routes[url](req, res);
 	} else {
 	    ecstatic(req, res);
 	}
