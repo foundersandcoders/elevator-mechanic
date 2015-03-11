@@ -4,9 +4,9 @@ html
 		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
 		link(rel="stylesheet" href="./main.css")
 	body
-		div(class="form")
-			form
-				input(type="text" name="title")
-				br
-				textarea
-				input(type="submit" )
+		div(class="header")
+			include ./header
+		div(class="sidebar")
+			include ./sidebar
+		div(class="content")
+			include ./content
