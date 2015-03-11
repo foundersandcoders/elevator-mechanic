@@ -27,7 +27,6 @@ var data = {
 	]
 }
 
-
 module.exports = {
 
 	home: function handler(req, res) {
@@ -38,6 +37,7 @@ module.exports = {
 		res.end(htmlOutput);
 	},
 
+
 	create: function handler(req, res) {
 		var fn = jade.compileFile(path+req.url+".jade");
 		var htmlOutput = fn(data);
@@ -47,11 +47,12 @@ module.exports = {
 	},
 
 	update: function handler(req, res) {
-		console.log("update"+req.url);
 		console.log("Request handler 'update' was called.");
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end("updated");
 	}
+	
+
 	
 
 }

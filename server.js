@@ -2,7 +2,7 @@ var http = require("http");
 var ecstatic = require('ecstatic')({root: __dirname + '/public'});
 var handler = require("./handler");
 var port = 4000;
-
+var querystring = require('querystring');
 
 //*** List of Routes and Associated Handler Functions ***//
 var routes = {}
@@ -17,13 +17,15 @@ var router = function(req, res){
 	if (req.method == 'POST'){
 		var postData = "";
 		req.setEncoding("utf8");
+		
 		req.addListener("data", function(postDataChunk) {
 			postData += postDataChunk;
 			console.log("Received POST data chunk '"+
 			postDataChunk + "'.");
 		});
 		req.addListener("end", function() {
-			routes[url](req, res, postData);
+			clientData = querystring.parse(postData);
+			routes[url](req, res, clientData);
 		});
 	} else if (typeof routes[url] === 'function'){
 		routes[url](req, res);

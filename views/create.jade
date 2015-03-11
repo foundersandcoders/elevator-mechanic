@@ -4,12 +4,9 @@ html
 		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
 		link(rel="stylesheet" href="./main.css")
 	body
-		div(class="header col-md-12")
-			include ./header
-		div(class="form col-md-6 col-centered")
-			form( action="/",method="post")
-				h3 Title
-				input(type="text" name='title',rows="2",cols="10")
-				h3 Content
-				textarea(name="text",rows="10",cols="60")
-				input(type="submit",value="Save blog")
+		div(class="form")
+			form
+				input(type="text" name="title")
+				br
+				textarea
+				input(type="submit" )

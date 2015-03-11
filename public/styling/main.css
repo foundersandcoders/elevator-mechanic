@@ -1,3 +1,39 @@
-h1 {
-	color:red;
+/*Custom CSS Help Classes*/
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+/* ------------------------ */
+
+.header {
+	font-family: cursive;
+	text-align: center;
+}
+body {
+	background-color: #D3D3D3;
+}
+.sidebar {
+    background-color: white;
+}
+.content {
+    background-color: white;
+}
+.indivpost {
+    background-color: #55ACEE;
+    padding: 10px;
+    margin: 10px;      
+}
+.img {
+	float: left;
+}
+.edit {
+	background: none;
+	border: none;
+	float: right;
+}
+.delete {
+	background: none;
+	border: none;
+	float: right;
 }
