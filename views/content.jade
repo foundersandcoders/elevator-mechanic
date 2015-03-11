@@ -1,7 +1,9 @@
 each blogpost in blogposts
 	div(class="indivpost")
-		div(class="edit glyphicon glyphicon-pencil")
-		div(class="delete glyphicon glyphicon-remove")
+		a(href="/update")
+			button(type="button" class="edit glyphicon glyphicon-pencil")
+		a(href="/delete")
+			button(type="button" class="delete glyphicon glyphicon-remove")
 		div(class="img")
 			img(src=blogpost.image)
 		div(class="blogtext")
