@@ -45,13 +45,13 @@ var userSchema = mongoose.Schema({
 });
 
 
-var blogSchema = mongoose.Schema([{
-  author: String, 
+var blogSchema = mongoose.Schema({
+  author  : String,
   title   : String,
   text    : String,
   date    : String,
   image   : String  
-}]);
+});
 
 
 // Adding method to the schema. Have to be defined before schema is compiled \\
@@ -98,7 +98,7 @@ new_post = new BlogPost({
 
 new_post.save(function (err,post){
   if (err) return console.error(err);
-  console.log(post);
+  console.log('post is', post);
 });
 
 
@@ -115,7 +115,7 @@ function createBlogPost(username,title,text,date,image){
 
   new_blogpost.save(function (err,post){
     if (err) return console.error(err);
-    console.log(post);
+    console.log('post is ', post);
   });
 }
 
@@ -155,7 +155,8 @@ function deleteBlogpost(username,id){
 module.exports = { 
         User: User,
         updateBlogPost: updateBlogPost,
-        deleteBlogpost: deleteBlogpost
+        deleteBlogpost: deleteBlogpost,
+        createBlogPost: createBlogPost
 };
 
 
