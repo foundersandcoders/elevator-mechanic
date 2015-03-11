@@ -6,7 +6,7 @@ var fs = require("fs");
 var ecstatic = require("ecstatic")({root: __dirname + "/public"});
 
 
-mongoose.connect("mongodb://foundrymatrix:foundrymatrix@ds031108.mongolab.com:31108/serverblog");
+mongoose.connect("mongodb://foundrymatrix:foundrymatrix@ds030827.mongolab.com:30827/blog");
 
 // Get notification for connection success or failure \\
 var db = mongoose.connection;
@@ -39,17 +39,20 @@ dummey_data = {
 
 // Define database schema which determines which properties we want to store \\
 var userSchema = mongoose.Schema({
-  username: { type : String , unique : true, required : true },   
-  password: { type : String , unique : false, required : true },
-  blogposts: [{ 
-    id: Number,
-    author : String,
-    title  : String,
-    text   : String,
-    date   : Object,
-    image  : String  
-  }]
+  username: { type : String , unique : true,  required : true  },   
+  password: { type : String , unique : false, required : true  },
+  email:    { type : String , unique : true,  required : false }
 });
+
+
+var blogSchema = mongoose.Schema([{
+  author: String, 
+  title   : String,
+  text    : String,
+  date    : String,
+  image   : String  
+}]);
+
 
 // Adding method to the schema. Have to be defined before schema is compiled \\
 userSchema.methods.announce = function() {
@@ -64,19 +67,16 @@ userSchema.methods.announce = function() {
 
 // Example: save new user to database
 
-var User = mongoose.model("blogpost", userSchema);
+var User = mongoose.model("User", userSchema);
+var BlogPost = mongoose.model("BlogPost", blogSchema);
 
+
+
+/*
 new_user = new User({
       username:  'per5333rge3rdsz',
-      password:  '123343' ,  
-      blogposts: [{
-          id: 1, 
-          author : 'per',
-          title  : 'pers post',
-          text   : 'pers text',
-          date   : {},
-          image  : 'www.google.com/image'  
-      }]
+      password:  '123343' ,
+      email: 'perhb@hotmail.com'
     });
 
 new_user.save(function (err,user){
@@ -84,7 +84,44 @@ new_user.save(function (err,user){
   console.log(user);
 });
 
+*/
 
+
+new_post = new BlogPost({
+    author : 'per32',
+    title  : 'pers post 2',
+    text   : 'pers text 2',
+    date   : 'day',
+    image  : 'www.google.com/image2'  
+});
+
+
+new_post.save(function (err,post){
+  if (err) return console.error(err);
+  console.log(post);
+});
+
+
+
+
+function createBlogPost(username,title,text,date,image){  
+  new_blogpost = new BlogPost({
+    author : username,
+    title  : title,
+    text   : text,
+    date   : date,
+    image  : image  
+  });
+
+  new_blogpost.save(function (err,post){
+    if (err) return console.error(err);
+    console.log(post);
+  });
+}
+
+function createUser(){
+
+}
 
 function updateBlogPost(username, id, text){
 

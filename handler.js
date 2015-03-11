@@ -9,6 +9,7 @@ module.exports = {
 	},
 
 	create: function handler(req, res) {
+		createBlogPost('per','hello','blogpost text', {"day": "4"}, "img_link");
 		console.log("Request handler 'create' was called.");
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end("Create Article");
