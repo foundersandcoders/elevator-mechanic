@@ -1,10 +1,5 @@
 var model = require('./model.js');
 var jade = require("jade");
-var path = __dirname + "/public/index.jade";
-var fn = jade.compileFile(path);
-var data = {user: "asim"}  //DUMMY DATA
-var htmlOutput = fn(data);
-var jade = require("jade");
 var path = __dirname + "/views";
 var url = require("url");
 
@@ -43,26 +38,20 @@ module.exports = {
 		res.end(htmlOutput);
 	},
 
-	create: function handler(req, res, postData) {
+	create: function handler(req, res) {
+		var fn = jade.compileFile(path+req.url+".jade");
+		var htmlOutput = fn(data);
 		console.log("Request handler 'create' was called.");
-		res.writeHead(200, {"Content-Type": "text/plain"});
-		res.write("you have just posted your blogpost: ");
-		res.write(postData);
-		res.end();
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end(htmlOutput);
 	},
 
 	update: function handler(req, res) {
 		console.log("update"+req.url);
 		console.log("Request handler 'update' was called.");
 		res.writeHead(200, {"Content-Type": "text/html"});
-		res.end(htmlOutput);
-	},
-	
-	addblog: function handler(req, res) {
-		var fn = jade.compileFile(path+req.url+".jade");
-		var htmlOutput = fn(data);
-		console.log("Request handler 'update' was called.");
-		res.writeHead(200, {"Content-Type": "text/html"});
-		res.end(htmlOutput);
+		res.end("updated");
 	}
+	
+
 }
