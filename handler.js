@@ -1,10 +1,5 @@
 var model = require('./model.js');
 var jade = require("jade");
-var path = __dirname + "/public/index.jade";
-var fn = jade.compileFile(path);
-var data = {user: "asim"}  //DUMMY DATA
-var htmlOutput = fn(data);
-var jade = require("jade");
 var path = __dirname + "/views";
 var url = require("url");
 
@@ -32,7 +27,6 @@ var data = {
 	]
 }
 
-
 module.exports = {
 
 	home: function handler(req, res) {
@@ -43,21 +37,6 @@ module.exports = {
 		res.end(htmlOutput);
 	},
 
-	create: function handler(req, res, clientData) {
-
-		//fetch data and create blogpost document in db
-		text = clientData.text;
-		title = clientData.title;
-		model.createBlogPost('per',title, text);
-
-		res.writeHead(200, {"Content-Type": "text/plain"});
-		res.write("you have just posted your blogpost: " );
-		res.write('text: ',text);
-		res.write('title: ',title);
-		res.end();
-
-	},
-
 	update: function handler(req, res) {
 		console.log("update"+req.url);
 		console.log("Request handler 'update' was called.");
@@ -65,7 +44,7 @@ module.exports = {
 		res.end(htmlOutput);
 	},
 	
-	addblog: function handler(req, res) {
+	create: function handler(req, res) {
 		var fn = jade.compileFile(path+req.url+".jade");
 		var htmlOutput = fn(data);
 		console.log("Request handler 'update' was called.");
