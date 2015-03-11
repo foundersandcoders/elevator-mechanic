@@ -18,8 +18,8 @@ db.once("open", function (callback) {
 
 dummey_data = {
     userdata: { 
-    username: { 'per' },
-    password: { '123' }
+    username:  'per' ,
+    password:  '123' 
           },  
   blogposts: [{ 
     author : 'per',
@@ -39,11 +39,10 @@ dummey_data = {
 
 // Define database schema which determines which properties we want to store \\
 var userSchema = mongoose.Schema({
-  userdata: { 
-    username: { type : String , unique : true, required : true },
-    password: { type : String , unique : true, required : true }
-          },  
+  username: { type : String , unique : true, required : true },   
+  password: { type : String , unique : false, required : true },
   blogposts: [{ 
+    id: Number,
     author : String,
     title  : String,
     text   : String,
@@ -61,20 +60,70 @@ userSchema.methods.announce = function() {
 // Compile schema into a model, which defines the database collection \\
 // First argument is collection name, second argument is schema name  \\
 
+
+
 // Example: save new user to database
+
 var User = mongoose.model("blogpost", userSchema);
 
 new_user = new User({
-    userdata: {
-      username: 'john',
-      password: '123'
-    }
-});
+      username:  'per5333rge3rdsz',
+      password:  '123343' ,  
+      blogposts: [{
+          id: 1, 
+          author : 'per',
+          title  : 'pers post',
+          text   : 'pers text',
+          date   : {},
+          image  : 'www.google.com/image'  
+      }]
+    });
 
 new_user.save(function (err,user){
   if (err) return console.error(err);
   console.log(user);
 });
+
+
+
+function updateBlogPost(username, id, text){
+
+  User.findOne( { username: username } , function (err,user){
+    if (err) {
+      console.log(err);
+    }
+    user.blogposts.forEach(function (blogpost){
+      if (blogpost.id === id){
+        blogpost.text = text;
+      }
+    });
+
+    console.log(user);
+    user.save();
+
+  });
+}
+
+function deleteBlogpost(username,id){
+
+  User.update({username:username}, {$pull: { blogposts: { id: 1} }} ,false,  function(err,user){
+    if (err){
+      console.log(err);
+    }
+    console.log(user);
+  });
+
+}
+
+module.exports = { 
+        User: User,
+        updateBlogPost: updateBlogPost,
+        deleteBlogpost: deleteBlogpost
+};
+
+
+
+
 
 /*
 
@@ -89,9 +138,6 @@ user.findOneAndUpdate({ author: "bob smith" } ,{ $set: { title: "title nr 2" }},
 
 
 
-module.exports = { 
-        blogPost: blogPost
-};
 
 
 */
