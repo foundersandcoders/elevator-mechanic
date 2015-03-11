@@ -3,10 +3,10 @@ html
 		title Default Title
 		link(rel='stylesheet',href='/styling/main.css')
 	body
-		h1 this is a jade file homepage
-		h2 asfsafsaf
-		h1 #{user}
-		form( action="/create",method="post")
-			input(type="text" name='title',rows="2",cols="10")
-			input(type="text" name='text',rows="5",cols="20")
-			input(type="submit",value="Save blog")
+
+		div(class="header col-md-12")
+			include ./header
+		div(class="sidebar col-md-3 col-xs-3 col-sm-3")
+			include ./sidebar
+		div(class="content col-md-9 col-xs-9 col-sm-9")
+			include ./content
