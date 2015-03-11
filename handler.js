@@ -43,12 +43,19 @@ module.exports = {
 		res.end(htmlOutput);
 	},
 
-	create: function handler(req, res, postData) {
-		console.log("Request handler 'create' was called.");
+	create: function handler(req, res, clientData) {
+
+		//fetch data and create blogpost document in db
+		text = clientData.text;
+		title = clientData.title;
+		model.createBlogPost('per',title, text);
+
 		res.writeHead(200, {"Content-Type": "text/plain"});
-		res.write("you have just posted your blogpost: ");
-		res.write(postData);
+		res.write("you have just posted your blogpost: " );
+		res.write('text: ',text);
+		res.write('title: ',title);
 		res.end();
+
 	},
 
 	update: function handler(req, res) {
