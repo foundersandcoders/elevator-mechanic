@@ -1,0 +1,10 @@
+each blogpost in blogposts
+	div(class="indivpost")
+		div(class="edit glyphicon glyphicon-pencil")
+		div(class="delete glyphicon glyphicon-remove")
+		div(class="img")
+			img(src=blogpost.image)
+		div(class="blogtext")
+			h2 #{blogpost.title}
+			p #{blogpost.date}
+			p #{blogpost.text}

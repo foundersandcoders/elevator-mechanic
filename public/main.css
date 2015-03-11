@@ -2,11 +2,35 @@
 	font-family: cursive;
 	text-align: center;
 }
-
+body {
+	background-color: #D3D3D3;
+}
 .sidebar {
-    background-color:#eeeeee;
-    height:100%;
-    width:250px;
-    float:left;
-    padding:5px;	      
+    background-color: white;
+    height: 100%;
+    width: 250px;
+    float: left;
+    padding: 5px;	      
+}
+.content {
+	background-color: white;
+    height: 100%;
+    width: 320px; 
+    float: left;
+    margin: 10px;  
+}
+.indivpost {
+    background-color: #55ACEE;
+    padding: 10px;
+    margin: 10px;      
+}
+.img {
+	float: left;
+}
+
+.edit {
+	float: right;
+}
+.delete {
+	float: right;
 }
