@@ -6,7 +6,7 @@ var fs = require("fs");
 var ecstatic = require("ecstatic")({root: __dirname + "/public"});
 
 
-mongoose.connect("mongodb://foundrymatrix:foundrymatrix@ds031108.mongolab.com:31108/serverblog");
+mongoose.connect("mongodb://foundrymatrix:foundrymatrix@ds030827.mongolab.com:30827/blog");
 
 // Get notification for connection success or failure \\
 var db = mongoose.connection;
@@ -15,46 +15,172 @@ db.once("open", function (callback) {
   console.log("connection made");
 });
 
+
+dummey_data = {
+    userdata: { 
+    username:  'per' ,
+    password:  '123' 
+          },  
+  blogposts: [{ 
+    author : 'per',
+    title  : 'pers post',
+    text   : 'pers text',
+    date   : {},
+    image  : 'www.google.com/image'  
+  }, 
+  { 
+    author : 'per2',
+    title  : 'pers post 2',
+    text   : 'pers text 2',
+    date   : {},
+    image  : 'www.google.com/image2'  
+  }]
+}
+
 // Define database schema which determines which properties we want to store \\
-var blogSchema = mongoose.Schema({
-  author : String,
-  title  : String,
-  text   : String,
-  date   : Object,
-  image  : String
+var userSchema = mongoose.Schema({
+  username: { type : String , unique : true,  required : true  },   
+  password: { type : String , unique : false, required : true  },
+  email:    { type : String , unique : true,  required : false }
 });
 
+
+var blogSchema = mongoose.Schema({
+  author  : String,
+  title   : String,
+  text    : String,
+  date    : String,
+  image   : String  
+});
+
+
 // Adding method to the schema. Have to be defined before schema is compiled \\
-blogSchema.methods.announce = function() {
+userSchema.methods.announce = function() {
   var author = this.author ? "Another blog post by " + this.author : "Anonymous blog post";
   console.log(author);
 };
 
 // Compile schema into a model, which defines the database collection \\
 // First argument is collection name, second argument is schema name  \\
-var blogPost = mongoose.model("blogpost", blogSchema);
 
-module.exports = { 
-        blogPost: blogPost
-};
+
+
+// Example: save new user to database
+
+var User = mongoose.model("User", userSchema);
+var BlogPost = mongoose.model("BlogPost", blogSchema);
+
 
 
 /*
-// Example blog post \\
-var testPost = new blogPost({ author : "bob smith",
-                 title : "read these words",
-                   text : "this is some informatioon about an interesting topic of my choice",
-                  date : "new data object",
-                 image : "img src ='www.google.com/images/pineapple"
-              });
+new_user = new User({
+      username:  'per5333rge3rdsz',
+      password:  '123343' ,
+      email: 'perhb@hotmail.com'
+    });
 
-// Saves submitted blog post to database and displays a message confirming
-
-testPost.save(function(err, testPost){
+new_user.save(function (err,user){
   if (err) return console.error(err);
-  testPost.announce();
+  console.log(user);
 });
+
 */
+
+
+new_post = new BlogPost({
+    author : 'per32',
+    title  : 'pers post 2',
+    text   : 'pers text 2',
+    date   : 'day',
+    image  : 'www.google.com/image2'  
+});
+
+
+new_post.save(function (err,post){
+  if (err) return console.error(err);
+  console.log('post is', post);
+});
+
+
+
+
+function createBlogPost(username,title,text,date,image){  
+  new_blogpost = new BlogPost({
+    author : username,
+    title  : title,
+    text   : text,
+    date   : date,
+    image  : image  
+  });
+
+  new_blogpost.save(function (err,post){
+    if (err) return console.error(err);
+    console.log('post is ', post);
+  });
+}
+
+function createUser(){
+
+}
+
+function updateBlogPost(username, id, text){
+
+  User.findOne( { username: username } , function (err,user){
+    if (err) {
+      console.log(err);
+    }
+    user.blogposts.forEach(function (blogpost){
+      if (blogpost.id === id){
+        blogpost.text = text;
+      }
+    });
+
+    console.log(user);
+    user.save();
+
+  });
+}
+
+function deleteBlogpost(username,id){
+
+  User.update({username:username}, {$pull: { blogposts: { id: 1} }} ,false,  function(err,user){
+    if (err){
+      console.log(err);
+    }
+    console.log(user);
+  });
+
+}
+
+module.exports = { 
+        User: User,
+        updateBlogPost: updateBlogPost,
+        deleteBlogpost: deleteBlogpost,
+        createBlogPost: createBlogPost
+};
+
+
+
+
+
+/*
+
+// update a db object
+user.findOneAndUpdate({ author: "bob smith" } ,{ $set: { title: "title nr 2" }}, function(err, blogpost){
+  if (err){
+    console.log(err)
+  }
+  console.log(blogpost);
+});
+
+
+
+
+
+
+*/
+
+
 
 
 // Create http server to serve saved blogposts \\

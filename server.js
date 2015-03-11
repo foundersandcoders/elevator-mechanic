@@ -9,16 +9,13 @@ var routes = {}
 routes["/"] = handler.home;
 routes["/create"] = handler.create;
 routes["/update"] = handler.update;
-
+routes["/addblog"] = handler.addblog;
 
 //*** Invokes the right handler or throws error ***//
 var router = function(req, res){
 	var url = req.url;
-	console.log("request received for ", url);
 	console.log("server says this is a ", req.method)
 	if (req.method == 'POST'){
-		console.log("POST if statement invoked");
-		console.dir("REQ is -----",req);
 		var postData = "";
 		req.setEncoding("utf8");
 		req.addListener("data", function(postDataChunk) {
