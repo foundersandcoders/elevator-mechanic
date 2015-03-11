@@ -10,6 +10,7 @@
     "ecstatic": "^0.6.1",
     "jade": "^1.9.2",
     "mocha": "^2.2.1",
+    "mongoose": "^3.8.24",
     "shot": "^1.4.2"
   },
   "devDependencies": {

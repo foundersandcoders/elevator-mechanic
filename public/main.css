@@ -1,0 +1,12 @@
+.header {
+	font-family: cursive;
+	text-align: center;
+}
+
+.sidebar {
+    background-color:#eeeeee;
+    height:100%;
+    width:250px;
+    float:left;
+    padding:5px;	      
+}

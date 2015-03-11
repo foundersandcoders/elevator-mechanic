@@ -1,7 +1,11 @@
 html
 	head
-		title Default Title
+		title Foundry-Matrix Blog
+		link(rel="stylesheet" href="./main.css")
 	body
-		h1 this is a jade file homepage
-		h2 asfsafsaf
-		h1 #{user}
+		div(class="header")
+			include ./header
+		div(class="sidebar")
+			include ./sidebar
+		div(class="content")
+			include ./content
