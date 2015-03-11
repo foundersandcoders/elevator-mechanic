@@ -49,8 +49,7 @@ var blogSchema = mongoose.Schema({
   author  : String,
   title   : String,
   text    : String,
-  date    : String,
-  image   : String  
+  date    : {type: Date, default: Date.now }
 });
 
 
@@ -91,8 +90,7 @@ new_post = new BlogPost({
     author : 'per32',
     title  : 'pers post 2',
     text   : 'pers text 2',
-    date   : 'day',
-    image  : 'www.google.com/image2'  
+
 });
 
 
@@ -109,8 +107,6 @@ function createBlogPost(username,title,text,date,image){
     author : username,
     title  : title,
     text   : text,
-    date   : date,
-    image  : image  
   });
 
   new_blogpost.save(function (err,post){
