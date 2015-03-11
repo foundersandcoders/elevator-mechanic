@@ -37,7 +37,11 @@ module.exports = {
 	},
 
 	create: function handler(req, res) {
+<<<<<<< HEAD
 		console.log("create"+req.url);
+=======
+		model.createBlogPost('per','hello','blogpost text', {"day": "4"}, "img_link");
+>>>>>>> bdfe61e2f318a07baaf3d1ce8fb0aab17f6f5452
 		console.log("Request handler 'create' was called.");
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(htmlOutput);
