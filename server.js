@@ -9,11 +9,13 @@ var routes = {}
 routes["/"] = handler.home;
 routes["/create"] = handler.create;
 routes["/update"] = handler.update;
-route["/blogposts/" + *] = handler.update;
+routes["/blogposts"] = handler.read;
+
 
 //*** Invokes the right handler or throws error ***//
 var router = function(req, res){
 	var url = req.url;
+	var bloglink = querystring.parse(url);
 	console.log("server says this is a ", req.method)
 	if (req.method == 'POST'){
 		var postData = "";
@@ -25,9 +27,13 @@ var router = function(req, res){
 			postDataChunk + "'.");
 		});
 		req.addListener("end", function() {
+			console.log("post data is", postData);
 			clientData = querystring.parse(postData);
+			console.log(clientData);
 			routes[url](req, res, clientData);
 		});
+	} else if(typeof routes[bloglink.path]=== 'function'){
+		routes[bloglink.path](req, res, bloglink.blogid);
 	} else if (typeof routes[url] === 'function'){
 		routes[url](req, res);
 	} else {

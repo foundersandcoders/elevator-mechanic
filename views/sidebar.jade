@@ -1,3 +1,6 @@
 each blogpost in posts
-	a(href="/blogposts/"+blogpost.id)
+	a(href="&path=/blogposts&blogid=" + blogpost.id)
 		li #{blogpost.title} - #{blogpost._id.$iod}
+			-console.log("BLOG IDS -----", blogpost._id);
+			-console.log("type", typeof blogpost._id);
+			-console.dir(blogpost._id);
