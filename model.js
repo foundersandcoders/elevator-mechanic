@@ -4,7 +4,7 @@ var http = require("http");
 var url = require("url");
 var fs = require("fs");
 var ecstatic = require("ecstatic")({root: __dirname + "/public"});
-
+var handler = require('./handler.js');
 
 mongoose.connect("mongodb://foundrymatrix:foundrymatrix@ds030827.mongolab.com:30827/blog");
 
@@ -16,30 +16,9 @@ db.once("open", function (callback) {
 });
 
 
-dummey_data = {
-    userdata: { 
-    username:  'per' ,
-    password:  '123' 
-          },  
-  blogposts: [{ 
-    author : 'per',
-    title  : 'pers post',
-    text   : 'pers text',
-    date   : {},
-    image  : 'www.google.com/image'  
-  }, 
-  { 
-    author : 'per2',
-    title  : 'pers post 2',
-    text   : 'pers text 2',
-    date   : {},
-    image  : 'www.google.com/image2'  
-  }]
-}
-
 // Define database schema which determines which properties we want to store \\
 var userSchema = mongoose.Schema({
-  username: { type : String , unique : true,  required : true  },   
+  username: { type : String , unique : true,  required : true  },
   password: { type : String , unique : false, required : true  },
   email:    { type : String , unique : true,  required : false }
 });
@@ -101,20 +80,12 @@ new_post.save(function (err,post){
 
 
 
-function getBlogPost(username){
-  var data;
-  var done = false;
+function getBlogPost(value, cb){
   console.log('running getBlogPost');
-  BlogPost.find({author: username}, function(err,posts){
-      console.log(posts);
-      data = posts;
-      done = true;
-
+  BlogPost.find({_id: value}, function (err, posts){
+      console.log("model.js getblogpost: " + posts);
+      cb(posts);
   });
-  if (done === true){
-    console.log('data is true');
-    return data;
-  }
 }
 
 function createBlogPost(username,title,text,date,image){  
@@ -134,20 +105,23 @@ function createUser(){
 
 }
 
-function updateBlogPost(username, id, text){
+function updateBlogPost(id, cb){
 
-  User.findOne( { username: username } , function (err,user){
+  User.findOneAndUpdate({_id: id} , function (err,user){
     if (err) {
       console.log(err);
     }
     user.blogposts.forEach(function (blogpost){
       if (blogpost.id === id){
         blogpost.text = text;
+        blogpost.title = title;
       }
     });
 
     console.log(user);
     user.save();
+
+    cb();
 
   });
 }
@@ -168,8 +142,8 @@ module.exports = {
         updateBlogPost: updateBlogPost,
         deleteBlogpost: deleteBlogpost,
         createBlogPost: createBlogPost,
-        getBlogPost:getBlogPost,
-        BlogPost:BlogPost
+        getBlogPost: getBlogPost,
+        BlogPost: BlogPost
 };
 
 

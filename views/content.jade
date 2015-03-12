@@ -1,6 +1,6 @@
 each blogpost in posts
 	div(class="indivpost")
-		a(href="/update")
+		a(href="&path=/update&blogid="+blogpost.id)
 			button(type="button" class="edit glyphicon glyphicon-pencil")
 		a(href="/delete")
 			button(type="button" class="delete glyphicon glyphicon-remove")
