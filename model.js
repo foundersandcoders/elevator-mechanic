@@ -87,7 +87,7 @@ new_user.save(function (err,user){
 
 
 new_post = new BlogPost({
-    author : 'per32',
+    author : 'per',
     title  : 'pers post 2',
     text   : 'pers text 2',
 
@@ -101,6 +101,21 @@ new_post.save(function (err,post){
 
 
 
+function getBlogPost(username){
+  var data;
+  var done = false;
+  console.log('running getBlogPost');
+  BlogPost.find({author: username}, function(err,posts){
+      console.log(posts);
+      data = posts;
+      done = true;
+
+  });
+  if (done === true){
+    console.log('data is true');
+    return data;
+  }
+}
 
 function createBlogPost(username,title,text,date,image){  
   new_blogpost = new BlogPost({
@@ -152,7 +167,9 @@ module.exports = {
         User: User,
         updateBlogPost: updateBlogPost,
         deleteBlogpost: deleteBlogpost,
-        createBlogPost: createBlogPost
+        createBlogPost: createBlogPost,
+        getBlogPost:getBlogPost,
+        BlogPost:BlogPost
 };
 
 

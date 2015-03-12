@@ -1,4 +1,4 @@
-each blogpost in blogposts
+each blogpost in posts
 	div(class="indivpost")
 		a(href="/update")
 			button(type="button" class="edit glyphicon glyphicon-pencil")
@@ -10,3 +10,4 @@ each blogpost in blogposts
 			h2 #{blogpost.title}
 			p #{blogpost.date}
 			p #{blogpost.text}
+			p #{blogpost.id}

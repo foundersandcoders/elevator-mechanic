@@ -3,6 +3,7 @@ var jade = require("jade");
 var path = __dirname + "/views";
 var url = require("url");
 
+/*
 var data = {
     userdata: {
 		username: "per",
@@ -27,14 +28,18 @@ var data = {
 	]
 }
 
+*/
+
 module.exports = {
 
 	home: function handler(req, res) {
-		var fn = jade.compileFile(path+"/index.jade");
-		var htmlOutput = fn(data);
-		console.log("Request handler 'home' was called.");
-		res.writeHead(200, {"Content-Type": "text/html"});
-		res.end(htmlOutput);
+		model.BlogPost.find({author: 'per'}, function(err,posts){
+		    var fn = jade.compileFile(path + "/index.jade");
+			var htmlOutput = fn({posts: posts});
+			console.log("Request handler 'home' was called.");
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+  		});		
 	},
 
 
