@@ -30,15 +30,18 @@ module.exports = {
 
 
 	read: function handler(req, res, blogid){
-		model.getBlogPost(blogid);
-		
-		    var path = rootPath + "/blog.jade";
+		model.getBlogPost(blogid, function(posts){
+			var path = rootPath + "/blog.jade";
 		    var fn = jade.compileFile(path);
-			var htmlOutput = fn(htmlOutput);
-			
+			var htmlOutput = fn({posts: posts});
+			console.log("posts- ----", posts[0].title)
 			res.writeHead(200, {"Content-Type": "text/html"});
 			res.end(htmlOutput);
   		
+
+		});
+		
+		  
 	},
 
 
