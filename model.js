@@ -105,23 +105,35 @@ function createUser(){
 
 }
 
-function updateBlogPost(id, cb){
+// // update a db object
+// user.findOneAndUpdate({ author: "bob smith" } ,{ $set: { title: "title nr 2" }}, function(err, blogpost){
+//   if (err){
+//     console.log(err)
+//   }
+//   console.log(blogpost);
+// });
 
-  User.findOneAndUpdate({_id: id} , function (err,user){
+
+function updateBlogPost(id, title, text){
+
+  console.log("TRIGGEREDDDDDD");
+  console.log('the title is', title);
+  console.log(' the text is', text);
+  BlogPost.findOneAndUpdate({"_id": id} , { $set: { title: title, text:text }}, function (err,blogpost){
+    console.log('asdfasdfasdf', blogpost);
+    console.log('((((((((())))))))');
     if (err) {
       console.log(err);
     }
-    user.blogposts.forEach(function (blogpost){
-      if (blogpost.id === id){
-        blogpost.text = text;
-        blogpost.title = title;
-      }
-    });
 
-    console.log(user);
-    user.save();
+    
+    // blogpost.text = text;
+    // blogpost.title = title;
+      
 
-    cb();
+    // blogpost.save();
+
+    
 
   });
 }

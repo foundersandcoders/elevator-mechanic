@@ -31,10 +31,11 @@ var router = function(req, res){
 			console.log("post data is", postData);
 			clientData = querystring.parse(postData);
 			console.log(clientData);
-			routes[url](req, res, clientData);
+					console.log("path is -----", bloglink.path);
+			routes[bloglink.path](req, res, bloglink.blogid, clientData.title, clientData.text);
 		});
 	} else if(typeof routes[bloglink.path]=== 'function'){
-		routes[bloglink.path](req, res, bloglink.blogid);
+		routes[bloglink.path](req, res, bloglink.blogid, bloglink);
 	} else if (typeof routes[url] === 'function'){
 		routes[url](req, res);
 	} else if (typeof routes[bloglink.path] === 'function'){

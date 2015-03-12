@@ -56,15 +56,19 @@ module.exports = {
   		});
 	},
 
-	save: function handler(req, res, blogid) {
-		model.updateBlogPost(blogid, function(posts){
-			console.log("update handler: "+ posts);
-			var fn = jade.compileFile(path + "/index.jade");
-			var htmlOutput = fn({posts: posts});
-			console.log("Request handler 'create' was called.");
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
-  		});
+	save: function handler(req, res, blogid, title, text) {
+		console.log(title);
+		console.log(text);
+		console.log('************blog id is -----', blogid);
+		model.updateBlogPost(blogid, title, text);
+		// 	console.log("update handler: "+ posts);
+		// 	var fn = jade.compileFile(path + "/index.jade");
+		// 	var htmlOutput = fn({posts: posts});
+		// 	console.log("Request handler 'create' was called.");
+		// 	res.writeHead(200, {"Content-Type": "text/html"});
+			
+  		// });
+		res.end('it has been saved');
 	}
 
 }
