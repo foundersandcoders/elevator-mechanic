@@ -96,7 +96,7 @@ new_post = new BlogPost({
 
 new_post.save(function (err,post){
   if (err) return console.error(err);
-  console.log('post is', post);
+  // console.log('post is', post);
 });
 
 

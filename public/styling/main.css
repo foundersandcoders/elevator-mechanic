@@ -1,3 +1,11 @@
+/*Custom CSS Help Classes*/
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+/* ------------------------ */
+
 .header {
 	font-family: cursive;
 	text-align: center;
