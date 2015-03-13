@@ -25,6 +25,7 @@ var userSchema = mongoose.Schema({
 
 
 var blogSchema = mongoose.Schema({
+
   author  : String,
   title   : String,
   text    : String,
@@ -48,8 +49,6 @@ userSchema.methods.announce = function() {
 var User = mongoose.model("User", userSchema);
 var BlogPost = mongoose.model("BlogPost", blogSchema);
 
-
-
 /*
 new_user = new User({
       username:  'per5333rge3rdsz',
@@ -64,21 +63,18 @@ new_user.save(function (err,user){
 
 */
 
+function createBlogPost(clientdata){  
+  new_blogpost = new BlogPost({
+    author  : clientdata.author,
+    title  : clientdata.title,
+    text   : clientdata.text,
+  });
 
-new_post = new BlogPost({
-    author : 'per',
-    title  : 'pers post 2',
-    text   : 'pers text 2',
-
-});
-
-
-new_post.save(function (err,post){
-  if (err) return console.error(err);
-  // console.log('post is', post);
-});
-
-
+  new_blogpost.save(function (err,post){
+    if (err) return console.error(err);
+    console.log('post is ', post);
+  });
+}
 
 function getBlogPost(value, cb){
   console.log('running getBlogPost');
@@ -88,117 +84,30 @@ function getBlogPost(value, cb){
   });
 }
 
-function createBlogPost(username,title,text,date,image){  
-  new_blogpost = new BlogPost({
-    author : username,
-    title  : title,
-    text   : text,
-  });
+function updateBlogPost(id, clientdata){
 
-  new_blogpost.save(function (err,post){
-    if (err) return console.error(err);
-    console.log('post is ', post);
-  });
-}
-
-function createUser(){
-
-}
-
-// // update a db object
-// user.findOneAndUpdate({ author: "bob smith" } ,{ $set: { title: "title nr 2" }}, function(err, blogpost){
-//   if (err){
-//     console.log(err)
-//   }
-//   console.log(blogpost);
-// });
-
-
-function updateBlogPost(id, title, text){
-
-  console.log("TRIGGEREDDDDDD");
-  console.log('the title is', title);
-  console.log(' the text is', text);
-  BlogPost.findOneAndUpdate({"_id": id} , { $set: { title: title, text:text }}, function (err,blogpost){
-    console.log('asdfasdfasdf', blogpost);
-    console.log('((((((((())))))))');
+  BlogPost.findOneAndUpdate({"_id": id} , { $set: { title:clientdata.title, text:clientdata.text }}, function (err, post){
     if (err) {
       console.log(err);
     }
-
     
-    // blogpost.text = text;
-    // blogpost.title = title;
-      
-
-    // blogpost.save();
-
-    
-
   });
 }
 
-function deleteBlogpost(username,id){
+function deleteBlogPost(id){
 
-  User.update({username:username}, {$pull: { blogposts: { id: 1} }} ,false,  function(err,user){
-    if (err){
-      console.log(err);
-    }
-    console.log(user);
-  });
-
+    BlogPost.findOneAndRemove({"_id": id}, function (err, post){
+        if (err) {
+          console.log(err);
+        }
+    });
 }
 
 module.exports = { 
         User: User,
         updateBlogPost: updateBlogPost,
-        deleteBlogpost: deleteBlogpost,
+        deleteBlogPost: deleteBlogPost,
         createBlogPost: createBlogPost,
         getBlogPost: getBlogPost,
         BlogPost: BlogPost
 };
-
-
-
-
-
-/*
-
-// update a db object
-user.findOneAndUpdate({ author: "bob smith" } ,{ $set: { title: "title nr 2" }}, function(err, blogpost){
-  if (err){
-    console.log(err)
-  }
-  console.log(blogpost);
-});
-
-
-
-
-
-
-*/
-
-
-
-
-// Create http server to serve saved blogposts \\
-/*
-http.createServer(function (request, response) {
-  if (request.url === "/") {
-    blogPost.find(function(err, blogPost) {
-      response.write(JSON.stringify(blogPost));
-      response.end();
-    });
-  } else if (request.url === "/form") {
-      fs.readFile('index.html', function(err, page) {
-        response.writeHead(200, {'Content-Type': 'text/html'});
-        response.write(page);
-        response.end();
-      })
-    }
-}).listen(4000);
-
-console.log("Server running at 4000");
-
-*/

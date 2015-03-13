@@ -7,7 +7,9 @@ html
 		div(class="header col-md-12")
 			include ./header
 		div(class="form col-md-6 col-centered")
-			form( action="/",method="post")
+			form(action="&path=/add",method="post")
+				h3 Author
+				input(type="text" name='author',rows="2",cols="10")
 				h3 Title
 				input(type="text" name='title',rows="2",cols="10")
 				h3 Content
