@@ -1,0 +1,16 @@
+html
+	head
+		title Foundry Matrix Blog
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+		link(rel='stylesheet' href='/styling/main.css')
+	body
+		div(class="header col-md-12")
+			include ./header
+		div(class="form col-md-6 col-centered")
+			form( action="/auth",method="post")
+				h3 Title
+				input(type="text" name='username',rows="2",cols="10")
+				h3 Content
+				input(name="password",rows="10",cols="60")
+				input(type="submit",value="Save blog")
+

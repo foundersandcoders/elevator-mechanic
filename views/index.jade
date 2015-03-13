@@ -6,6 +6,13 @@ html
 	body
 		div(class="header col-md-12")
 			include ./header
+			div(class="form col-md-6 col-centered")
+		form( action="/private",method="post")
+			p Username
+			input(type="text" name='username',rows="2",cols="10")
+			p Password
+			input(name="password",rows="10",cols="60")
+			input(type="submit",value="Save blog")
 		div(class="sidebar col-md-3 col-xs-3 col-sm-3")
 			include ./sidebar
 		div(class="col-md-1 col-xs-1 col-sm-1")
