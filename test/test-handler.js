@@ -1,10 +1,12 @@
+
+/*
 var shot = require("shot");
 var handler = require("../handler.js");
 var assert = require("assert");
 var request;
 
 
-describe("home page response", function(){
+describe("TEST: home page response in test-handler.js", function(){
 	it('should return 200 as the status code', function(done){
 		request = {
 			method: 'GET',
@@ -31,11 +33,7 @@ describe("home page response", function(){
 
 });
 
-describe("test valid string", function(){
-	it('fail is string isnt valid', function(done){
-		assert.equal(handler.verify('werklmwef'),false);
-	});
-});
+
 
 
 
@@ -68,6 +66,8 @@ describe("create page response", function(){
 
 
 
+
+
 describe("update page response", function(){
 	it('should return 200 as the status code', function(done){
 		request = {
@@ -94,3 +94,5 @@ describe("update page response", function(){
 
 
 });
+
+*/

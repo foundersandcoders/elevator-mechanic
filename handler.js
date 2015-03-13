@@ -31,6 +31,7 @@ function generateToken(req, GUID){
 		agent: req.headers['user-agent'], // Question: What it this?
 		exp: new Date().getTime() + 7*24*60*60*1000 // Question: so this token expires sometime?
 	}, secret);
+	console.log('token: ', token);
 	return token;
 }
 
@@ -66,9 +67,10 @@ function authSuccess(req, res, _id){
 // lookup person in "database"
 u = { un: 'per', pw: '123', _id: '5' };
 
-function authHandler( req, res ){
+function authHandler( req, res,blogid,clientData ){
 		console.log('AuthHandler triggered');
-		if (req.method === 'POST'){
+		console.log('cliendData: ', clientData);
+		/*if (req.method === 'POST'){
 			console.log('req.method is POST')
 			var body = '';
 			req.on('data', function (data){
@@ -79,19 +81,16 @@ function authHandler( req, res ){
 				var post = querystring.parse(body);
 				console.log('username: ', u.un);
 				console.log('id ', u._id);
-				if (post.username && post.username === u.un && post.password && post.password == u.pw){
-					//console.log('auth succeed. Id: ', id);
-					var _id = u._id;
-					return authSuccess(req,res, _id);
-				} else {
-					console.log('auth failed');
-					return authFail(req,res);
-				}
-			});
+				*/
+		if (clientData.username && clientData.username === u.un && clientData.password && clientData.password == u.pw){
+			//console.log('auth succeed. Id: ', id);
+			var _id = u._id;
+			return authSuccess(req,res, _id);
 		} else {
-			return authFail(req, res);
-		}
-	}
+			console.log('auth failed');
+			return authFail(req,res);
+		} 
+}
 
 
 function verify(token){
@@ -103,7 +102,9 @@ function verify(token){
 		console.log('catch triggered');
 		decoded = false;
 	}
+	console.log('decoded: ', decoded);
 	return decoded;
+
 }
 
 function validate(req, res, callback){
@@ -112,9 +113,8 @@ function validate(req, res, callback){
 	// console.log(req.headers)
 	console.log('token is: ', token);
 	var decoded = verify(token);
-	console.log(decoded);
+	console.log('decoded: ', decoded);
 	if ( !decoded || !decoded.auth ){ // why isnt !decoded enough
-		console.log()
 		console.log('decoded: ', decoded);
 		authFail(req,res);
 		//return callback(res);
@@ -158,7 +158,6 @@ function logout(req,res,callback){
 		  	var htmlOutput = fn(test_data);
 		  	res.end(htmlOutput);
 		});
-
 	}
 }
 
@@ -223,8 +222,6 @@ function update(req, res) {
 
 function add(req, res, blogid, clientdata) {
 		model.createBlogPost(clientdata);
-		
-
 		model.BlogPost.find({author: 'per'}, function(err,posts){
 		    var fn = jade.compileFile(rootPath + "/index.jade");
 			var htmlOutput = fn({posts: posts});
@@ -232,7 +229,7 @@ function add(req, res, blogid, clientdata) {
 			res.writeHead(200, {"Content-Type": "text/html"});
 			res.end(htmlOutput);
   		});
-  		
+
 	}
 
 function read(req, res, blogid){
@@ -295,7 +292,8 @@ module.exports = {
 	update:update,
 	read:read,
 	add:add,
-	update:update
+	update:update,
+	verify:verify
 }	
 
 

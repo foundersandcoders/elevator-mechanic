@@ -21,19 +21,8 @@ routes["/add"] = handler.add;
 //*** Invokes the right handler or throws error ***//
 var router = function(req, res){
 	var url = req.url;
-
-	if (typeof routes[url] === 'function')	{
-		routes[url](req, res);
-	}
-	else{
-		ecstatic(req, res);
-	}
-
-	/*
-=======
 	console.log("url: "+url);
 	var bloglink = querystring.parse(url);
->>>>>>> master
 	console.log("server says this is a ", req.method)
 	if (req.method == 'POST'){
 		var postData = "";
@@ -59,7 +48,7 @@ var router = function(req, res){
 		ecstatic(req, res);
 	}
 
-	*/
+
 }
 
 http.createServer(router).listen(port);
