@@ -1,13 +1,14 @@
 each blogpost in posts
 	div(class="indivpost")
-		a(href="/update")
+		a(href="&path=/update&blogid="+blogpost.id)
 			button(type="button" class="edit glyphicon glyphicon-pencil")
 		a(href="/delete")
 			button(type="button" class="delete glyphicon glyphicon-remove")
 		div(class="img")
 			img(src=blogpost.image)
 		div(class="blogtext")
-			h2 #{blogpost.title}
+			a(href="&path=/blogposts&blogid=" + blogpost.id)
+				h2 #{blogpost.title}
 			p #{blogpost.date}
 			p #{blogpost.text}
 			p #{blogpost.id}
