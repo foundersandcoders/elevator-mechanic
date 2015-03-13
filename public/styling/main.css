@@ -11,7 +11,7 @@
 	text-align: center;
 }
 body {
-	background-color: #D3D3D3;
+		background: url(light_toast.png);
 }
 .sidebar {
     background-color: white;
