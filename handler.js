@@ -1,10 +1,12 @@
 var model = require('./model.js');
 var jade = require("jade");
-var path = __dirname + "/views";
+var rootPath = __dirname + "/views";
 var url = require("url");
 var jwt  = require('jsonwebtoken');
 var secret = "CHANGE_THIS_TO_SOMETHING_RANDOM"; // super secret
 var querystring = require('querystring');
+// var mongoose = require("mongoose");
+// var ObjectId = mongoose.Types.ObjectId;
 
 test_data = {
 	name: 'hi'
@@ -13,7 +15,7 @@ test_data = {
 
 function authFail(req,res){
 	res.writeHead(401, {'Content-Type': 'text/html'});
-	var fn = jade.compileFile(path + "/fail.jade");
+	var fn = jade.compileFile(rootPath + "/fail.jade");
 	res.end(fn(test_data));
 }
 
@@ -32,12 +34,13 @@ function generateToken(req, GUID){
 	return token;
 }
 
-function authSuccess(req,res, id){
+function authSuccess(req, res, _id){
 	var GUID = generateGUID(); // Question: What is this?
 	var token = generateToken(req, GUID);
 	var record = {
 		valid: "true",
-		created: new Date().getTime()
+		created: new Date().getTime(),
+		_id: _id
 	};
 
 	new_token = new model.Token({
@@ -55,31 +58,31 @@ function authSuccess(req,res, id){
 		'authorization': token,
 		'Set-Cookie': token
 	});
-	var fn = jade.compileFile(path + "/restricted.jade");
+	var fn = jade.compileFile(rootPath + "/restricted.jade");
 	res.end(fn(test_data));
-
 }
 
 
 // lookup person in "database"
-var u = { un: 'per', pw: '123', id: '5' };
+u = { un: 'per', pw: '123', _id: '5' };
 
-
-function authHandler(req,res){
+function authHandler( req, res ){
 		console.log('AuthHandler triggered');
 		if (req.method === 'POST'){
 			console.log('req.method is POST')
 			var body = '';
-			req.on('data', function(data){
-				console.log('data recieved: ',data)
+			req.on('data', function (data){
+				console.log('data recieved: ', data)
 				body += data;
 			});
 			req.on('end', function(){
 				var post = querystring.parse(body);
+				console.log('username: ', u.un);
+				console.log('id ', u._id);
 				if (post.username && post.username === u.un && post.password && post.password == u.pw){
-					console.log('auth succeed');
-					var id = un.id;
-					return authSuccess(req,res, id);
+					//console.log('auth succeed. Id: ', id);
+					var _id = u._id;
+					return authSuccess(req,res, _id);
 				} else {
 					console.log('auth failed');
 					return authFail(req,res);
@@ -122,7 +125,7 @@ function validate(req, res, callback){
 			record = db_token[0].record;
 			console.log('record: ', record);
 			console.log(typeof(record));
-			if (err){
+			if (err) {
 				console.log('err: ',err);
 				authFail(req,res);
 			}
@@ -151,7 +154,7 @@ function logout(req,res,callback){
 			res.writeHead(200, {
 				'Content-Type': 'text/html',
 				});
-			var fn = jade.compileFile(path + "/logout.jade");
+			var fn = jade.compileFile(rootPath + "/logout.jade");
 		  	var htmlOutput = fn(test_data);
 		  	res.end(htmlOutput);
 		});
@@ -165,21 +168,22 @@ function privado(res,token){
 		//'authorization': token // I dont need this, I think.
 	});
 
-	var fn = jade.compileFile(path + "/restricted.jade");
+	var fn = jade.compileFile(rootPath + "/restricted.jade");
   	var htmlOutput = fn(test_data);
   	return res.end(htmlOutput);
 }
 
+
 function home_login(req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
-  var fn = jade.compileFile(path + "/home_login.jade");
+  var fn = jade.compileFile(rootPath + "/home_login.jade");
   var htmlOutput = fn(test_data);
   return res.end(htmlOutput);
 }
 
 function home(req, res) {
 		model.BlogPost.find({author: 'per'}, function(err,posts){
-		    var fn = jade.compileFile(path + "/index.jade");
+		    var fn = jade.compileFile(rootPath + "/index.jade");
 			var htmlOutput = fn({posts:posts});
 			console.log("Request handler 'home' was called.");
 			res.writeHead(200, {"Content-Type": "text/html"});
@@ -187,9 +191,21 @@ function home(req, res) {
   		});		
 }
 
+/*
+function home(req, res) {
+		model.BlogPost.find({}, function(err,posts){
+		    var fn = jade.compileFile(rootPath + "/index.jade");
+			var htmlOutput = fn({posts: posts});
+			console.log("Request handler 'home' was called.");
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+  		});
+	}
+*/
+
 function create(req, res) {
 		model.BlogPost.find({author: 'per'}, function(err,posts){
-		    var fn = jade.compileFile(path + "/create.jade");
+		    var fn = jade.compileFile(rootPath + "/create.jade");
 			var htmlOutput = fn({posts: posts});
 			console.log("Request handler 'create' was called.");
 			res.writeHead(200, {"Content-Type": "text/html"});
@@ -203,8 +219,67 @@ function update(req, res) {
 		res.end("updated");
 }
 
-
 	
+
+function add(req, res, blogid, clientdata) {
+		model.createBlogPost(clientdata);
+		
+
+		model.BlogPost.find({author: 'per'}, function(err,posts){
+		    var fn = jade.compileFile(rootPath + "/index.jade");
+			var htmlOutput = fn({posts: posts});
+			console.log("Request handler 'home' was called.");
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+  		});
+  		
+	}
+
+function read(req, res, blogid){
+		model.getBlogPost(blogid, function(posts){
+			var path = rootPath + "/blog.jade";
+		    var fn = jade.compileFile(path);
+			var htmlOutput = fn({posts: posts});
+			console.log("posts- ----", posts[0].title)
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+		});
+	}
+
+function update(req, res, blogid) {
+		model.getBlogPost(blogid, function(posts){
+			console.log("update handler: "+ posts);
+			var fn = jade.compileFile(rootPath + "/update.jade");
+			var htmlOutput = fn({posts: posts});
+			console.log("Request handler 'create' was called.");
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+  		});
+	}
+
+function save(req, res, blogid, clientdata) {
+		model.updateBlogPost(blogid, clientdata);
+		model.BlogPost.find({author: 'per'}, function(err,posts){
+		    var fn = jade.compileFile(rootPath + "/index.jade");
+			var htmlOutput = fn({posts: posts});
+			console.log("Request handler 'home' was called.");
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+  		});
+	}
+
+function deleteblog(req, res, blogid) {
+		model.deleteBlogPost(blogid);
+		model.BlogPost.find({author: 'per'}, function(err,posts){
+		    var fn = jade.compileFile(rootPath + "/index.jade");
+			var htmlOutput = fn({posts: posts});
+			console.log("Request handler 'home' was called.");
+			res.writeHead(200, {"Content-Type": "text/html"});
+			res.end(htmlOutput);
+  		});
+	}
+
+
 
 module.exports = {
 	home: home,
@@ -214,7 +289,13 @@ module.exports = {
 	home_login: home_login,
 	authFail: authFail,
 	validate: validate,
-	logout: logout
+	logout: logout,
+	deleteblog: deleteblog,
+	save:save,
+	update:update,
+	read:read,
+	add:add,
+	update:update
 }	
 
 

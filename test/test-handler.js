@@ -5,9 +5,7 @@ var request;
 
 
 describe("home page response", function(){
-	
 	it('should return 200 as the status code', function(done){
-		
 		request = {
 			method: 'GET',
 			url: '/'
@@ -33,6 +31,14 @@ describe("home page response", function(){
 
 });
 
+describe("test valid string", function(){
+	it('fail is string isnt valid', function(done){
+		assert.equal(handler.verify('werklmwef'),false);
+	});
+});
+
+
+
 
 describe("create page response", function(){
 	it('should return 200 as the status code', function(done){
@@ -57,8 +63,6 @@ describe("create page response", function(){
 			done();
 		});
 	});
-
-
 });
 
 

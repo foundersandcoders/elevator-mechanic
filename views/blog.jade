@@ -1,0 +1,15 @@
+html
+	head
+		title Foundry Matrix Blog
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+		link(rel='stylesheet' href='/styling/main.css')
+	body
+		div(class="container row")
+			div(class="header col-md-12 col-sm-12 col-xs-12")
+				include ./header
+			h4 Title
+			div(class="blog-title col-md-6 col-sm-6 col-xs-6 col-centered") #{posts[0].title}
+			h4 Author
+			div(class="blog-author col-md-6 col-sm-6 col-xs-6 col-centered") #{posts[0].author}
+			h4 Content
+			div(class="blog-content col-md-6 col-sm-6 col-xs-6 col-centered") #{posts[0].text}
